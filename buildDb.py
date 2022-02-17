@@ -1,68 +1,47 @@
 from datetime import datetime
 from config import db
-from userDbConfig import Person, Note
+from userDbConfig import UserInitSchema, UserInfo
+from userDbAccess import setUser
 
-# Data to initialize database with
-PEOPLE = [
+# Fake people for testing
+userSchemaInitialized = [
     {
-        "firstName": "Doug",
-        "lastName": "Farrell",
-        "coins": 123,
-        "level": 3,
-        "status": "I love shisha",
-        "notes": [
-            (1, "2019-01-06 22:17:54"),
-            (2,  "2019-01-08 22:17:54"),
-            (5, "2019-03-06 22:17:54"),
-        ],
+        "firstName": "Tester",
+        "lastName": "MegaTester",
+        "phoneNumber": "88005553535",
+        "email": "mailme1@icloud.com",
     },
     {
-        "firstName": "Kent",
-        "lastName": "Brockman",
-        "coins": 124,
-        "level": 4,
-        "status": "I love shisha too",
-        "notes": [
-            (8, "2019-01-07 22:17:54",),
-            (11, "2019-02-06 22:17:54",),
-        ],
+        "firstName": "cornerCaseSameLastName",
+        "lastName": "MegaTester",
+        "phoneNumber": "88005553536",
+        "email": "mailme2@icloud.com",
     },
     {
-        "firstName": "Bunny",
-        "lastName": "Easter",
-        "coins": 125,
-        "level": 5,
-        "status": "I hate shisha",
-        "notes": [
-            (6, "2019-01-07 22:47:54"),
-            (1, "2019-04-06 22:17:54"),
-        ],
+        "firstName": "invalidnam3",
+        "lastName": "some    tabs in lastname",
+        "phoneNumber": "88015553537",
+        "email": "mailme3@icloud.com",
+    },
+    {
+        "firstName": "cornerCaseInvalidEmail",
+        "lastName": "oklastName",
+        "phoneNumber": "88015553538",
+        "email": "mailme4@_icloud.32sm",
     },
 ]
 
-# Create the database
 db.create_all()
 
-# iterate over the PEOPLE structure and populate the database
-for person in PEOPLE:
-
-    p = Person(
-        lastName=person.get("lastName"),
-        firstName=person.get("firstName"),
-        coins=person.get("coins"),
-        level=person.get("level"),
-        status=person.get("status")
+for user in userSchemaInitialized:
+    userDb = UserInfo(
+        lastName=user.get("lastName"),
+        firstName=user.get("firstName"),
+        email=user.get("email"),
+        phoneNumber=user.get("phoneNumber"),
         )
 
-    # Add the notes for the person
-    for note in person.get("notes"):
-        achieve_id, time_from = note
-        p.notes.append(
-            Note(
-                achieve_id=achieve_id,
-                time_from=datetime.strptime(time_from, "%Y-%m-%d %H:%M:%S"),
-            )
-        )
-    db.session.add(p)
+    # Checker on validness : userDbAccess.setUser(user)
+    db.session.add(user)
 
 db.session.commit()
