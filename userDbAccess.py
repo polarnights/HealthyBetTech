@@ -6,7 +6,6 @@ Usage by:
 - change single user data by UserId
 - remove single user data by UserId
 """
-
 from flask import make_response, abort
 from config import db
 from userDbConfig import UserInfo, UserInitSchema

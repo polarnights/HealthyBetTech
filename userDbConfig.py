@@ -5,11 +5,12 @@ from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 class UserInfo(db.Model):
     __tablename__ = "userInfo"
 
-    userId = db.Column(db.Integer, primary_key=True)
+    userId = db.Column(db.Integer, primary_key=True, unique=True)
     lastName = db.Column(db.String(50))
     firstName = db.Column(db.String(50))
     phoneNumber = db.Column(db.String(50))
     email = db.Column(db.String(50))
+    password = db.Column(db.String(50))
     timestamp = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
