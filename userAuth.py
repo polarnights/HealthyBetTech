@@ -8,20 +8,16 @@ from functools import wraps
 
 from userDbConfig import UserInfo
 
-# creates Flask object
+
 app = Flask(__name__)
-# configuration
-# NEVER HARDCODE YOUR CONFIGURATION IN YOUR CODE
-# INSTEAD CREATE A .env FILE AND STORE IN IT
 app.config['SECRET_KEY'] = 'your secret key'
-# database name
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-# creates SQLALCHEMY object
+
 db = SQLAlchemy(app)
 
 
-# decorator for verifying the JWT
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
