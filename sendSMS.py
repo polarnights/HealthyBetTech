@@ -22,8 +22,6 @@ def send_sms(phones, text, total_price=0):
     login = 'userlog'  # Логин в smsc
     password = 'myPas1'  # Пароль в smsc
     sender = 'Python'  # Имя отправителя
-    # Возможные ошибки
-    # Отправка запроса
     url = "http://smsc.ru/sys/send.php?login=%s&psw=%s&phones=%s&mes=%s&cost=%d&sender=%s&fmt=3" % (
     login, password, phones, text, total_price, sender)
     answer = json.loads(urllib.urlopen(url).read())
@@ -42,8 +40,6 @@ def get_all_users_list():
     users = UserInfo.query.all()
     output = []
     for user in users:
-        # appending the user data json
-        # to the response list
         output.append({
             'userId': user.userId,
             'lastName': user.lastName,

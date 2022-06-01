@@ -10,9 +10,9 @@ from userDbConfig import UserInfo
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your secret key'
+app.config['SECRET_KEY'] = 'HIDDEN'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'HIDDEN'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 db = SQLAlchemy(app)
@@ -47,8 +47,6 @@ def get_all_users(current_user):
     users = UserInfo.query.all()
     output = []
     for user in users:
-        # appending the user data json
-        # to the response list
         output.append({
             'userId': user.userId,
             'lastName': user.lastName,
@@ -77,30 +75,28 @@ def login():
         .first()
 
     if not user:
-        # returns 401 if user does not exist
         return make_response(
             'Could not verify',
             401,
-            {'WWW-Authenticate': 'Basic realm ="User does not exist !!"'}
+            {'WWW-Authenticate': 'Basic realm ="User does not exist !"'}
         )
 
     if check_password_hash(user.password, auth.get('password')):
-        # generates the JWT Token
+        # JWT Token
         token = jwt.encode({
             'userId': user.userId,
             'exp': datetime.utcnow() + timedelta(minutes=30)
         }, app.config['SECRET_KEY'])
 
         return make_response(jsonify({'token': token.decode('UTF-8')}), 201)
-    # returns 403 if password is wrong
     return make_response(
         'Could not verify',
         403,
-        {'WWW-Authenticate': 'Basic realm ="Wrong Password !!"'}
+        {'WWW-Authenticate': 'Basic realm ="Wrong Password !"'}
     )
 
 
-# signup route
+# signup
 @app.route('/signup', methods=['POST'])
 def signup():
     data = request.form
@@ -120,18 +116,13 @@ def signup():
             email=email,
             password=generate_password_hash(password)
         )
-        # insert user
         db.session.add(user)
         db.session.commit()
 
         return make_response('Successfully registered.', 201)
     else:
-        # returns 202 if user already exists
         return make_response('User already exists. Please Log in.', 202)
 
 
 if __name__ == "__main__":
-    # setting debug to True enables hot reload
-    # and also provides a debugger shell
-    # if you hit an error while running the server
     app.run(debug=True)
