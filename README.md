@@ -1,3 +1,9 @@
+***NOTE!***
+
+***PROJECT IS ARCHIVED***
+
+***NO FURTHER CHANGES ARE PLANNED***
+
 --------------------
 HealthyBet aka Sporty - приложение, в котором люди могли бы максимально эффективно тренироваться и выполнять упражнения, не теряя мотивации.
 
@@ -10,3 +16,5 @@ Current content:
 - User database adder/removal/editor
 - Necessary project requirements
 - Add SQL
+
+--------------------
